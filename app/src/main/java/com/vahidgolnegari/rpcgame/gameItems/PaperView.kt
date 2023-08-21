@@ -5,9 +5,10 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import androidx.core.content.ContextCompat
 
-class PaperView(context: Context?) : BaseGameItem(context) {
-    private val rectanglePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = ContextCompat.getColor(context!!, android.R.color.holo_green_light)
+class PaperView(context: Context) : BaseGameItem(context) {
+
+    private var rectanglePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = ContextCompat.getColor(context, android.R.color.holo_green_light)
         style = Paint.Style.FILL
     }
 

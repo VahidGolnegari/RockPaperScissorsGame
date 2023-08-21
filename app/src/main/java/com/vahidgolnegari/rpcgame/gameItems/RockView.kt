@@ -2,12 +2,12 @@ package com.vahidgolnegari.rpcgame.gameItems
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 
-class RockView(context: Context?) : BaseGameItem(context) {
-    private val circlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.BLUE
+class RockView(context: Context) : BaseGameItem(context) {
+
+    private var circlePaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = android.graphics.Color.BLUE
         style = Paint.Style.FILL
     }
 

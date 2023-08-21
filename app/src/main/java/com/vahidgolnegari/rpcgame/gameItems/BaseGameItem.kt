@@ -3,7 +3,7 @@ package com.vahidgolnegari.rpcgame.gameItems
 import android.content.Context
 import android.view.View
 
-abstract class BaseGameItem(context: Context?) : View(context) {
+abstract class BaseGameItem(context: Context) : View(context) {
 
     open var currentX: Int = 0
     open var currentY: Int = 0

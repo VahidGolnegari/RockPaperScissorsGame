@@ -5,10 +5,10 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import androidx.core.content.ContextCompat
 
-class ScissorsView(context: Context?) : BaseGameItem(context) {
+class ScissorsView(context: Context) : BaseGameItem(context) {
 
     private val crossPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = ContextCompat.getColor(context!!, android.R.color.holo_red_light)
+        color = ContextCompat.getColor(context, android.R.color.holo_red_light)
         style = Paint.Style.STROKE
         strokeWidth = 4.dpToPx().toFloat()
     }

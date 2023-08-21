@@ -13,7 +13,18 @@ class MainActivity : AppCompatActivity() {
         playButton = this.findViewById(R.id.btn_play)
         boardGame = this.findViewById(R.id.board_game)
         playButton.setOnClickListener {
-            boardGame.playGame()
+            boardGame.playPauseGame()
         }
+        boardGame.setListener(object : IBoardGameListener {
+
+            override fun onPlayStatusChanged(isPlaying: Boolean) {
+                playButton.text = if (isPlaying) "Pause" else "Play"
+            }
+        })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        boardGame.forcePause()
     }
 }

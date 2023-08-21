@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.ViewGroup
 import com.vahidgolnegari.rpcgame.gameItems.BaseGameItem
@@ -21,9 +22,11 @@ class BoardGame(context: Context, attributeSet: AttributeSet) : ViewGroup(contex
         strokeWidth = 2.dpToPx()
     }
 
+    private var mCallback: IBoardGameListener? = null
+
     private val totalGameItems = 5
     var firstInit: Boolean = false
-    private var startGameJob: Job? = null
+    private var gameJob: Job? = null
 
     init {
         setWillNotDraw(false)
@@ -34,18 +37,34 @@ class BoardGame(context: Context, attributeSet: AttributeSet) : ViewGroup(contex
         }
     }
 
-    fun playGame() {
-        if (startGameJob?.isActive == true) {
-            startGameJob?.cancel()
-            startGameJob = null
+    fun setListener(listener: IBoardGameListener) {
+        mCallback = listener
+    }
+
+    fun playPauseGame() {
+        if (gameJob?.isActive == true) {
+            gameJob?.cancel()
+            gameJob = null
+            mCallback?.onPlayStatusChanged(isPlaying = false)
         } else {
-            startGameJob = CoroutineScope(Dispatchers.Main).launch(start = CoroutineStart.LAZY) {
-                while (true) {
-                    getNextDirection()
-                    delay(50L)
-                }
+            startGameInternally()
+        }
+    }
+
+    private fun startGameInternally() {
+        gameJob = CoroutineScope(Dispatchers.Main).launch(start = CoroutineStart.LAZY) {
+            while (true) {
+                getNextDirection()
+                delay(50L)
             }
-            startGameJob?.start()
+        }
+        gameJob?.start()
+        mCallback?.onPlayStatusChanged(isPlaying = true)
+    }
+
+    fun forcePause() {
+        if (gameJob?.isActive == true) {
+            playPauseGame()
         }
     }
 
@@ -235,6 +254,9 @@ class BoardGame(context: Context, attributeSet: AttributeSet) : ViewGroup(contex
             }
         }
     }
+}
 
+interface IBoardGameListener {
+    fun onPlayStatusChanged(isPlaying: Boolean)
 }
 
